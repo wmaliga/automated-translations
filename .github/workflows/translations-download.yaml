@@ -1,0 +1,50 @@
+name: Translations Download
+
+on:
+  workflow_dispatch:
+
+jobs:
+  translations-download:
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        working-directory: scripts
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js version 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup dynamic variables
+        run: |
+          echo "DATE_MESSAGE=$(date --utc +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_ENV
+          echo "DATE_BRANCH=$(date --utc +'%Y%m%d-%H%M%S-utc')" >> $GITHUB_ENV
+
+      - name: Print dynamic variables
+        run: |
+          echo DATE_MESSAGE=${{ env.DATE_MESSAGE }}
+          echo DATE_BRANCH=${{ env.DATE_BRANCH }}
+
+      - name: npm clean install
+        run: npm ci
+
+      - name: Download translations
+        run: npx ts-node translationsDownload.ts
+
+      - name: Create Pull Request
+        if: success()
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: my-app/src/translations
+          branch: 'chore/translations-auto-update-${{ env.DATE_BRANCH }}'
+          commit-message: 'chore: Translations auto update ${{ env.DATE_MESSAGE }}'
+          title: 'chore: Translations auto update ${{ env.DATE_MESSAGE }}'
+          body: |
+            Translations generated at: ${{ env.DATE_MESSAGE }}
+            Please verify added translations before merge.
+            Please add 'translations' label for this pull request to run actions.
