@@ -1,14 +1,20 @@
 import React from 'react';
+
+import { useTranslation } from 'react-i18next';
+
+import './i18n';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const { t } = useTranslation();
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          { t('my-app') }
         </p>
         <a
           className="App-link"
@@ -16,7 +22,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          { t('learn-react') }
         </a>
       </header>
     </div>
