@@ -1,0 +1,29 @@
+name: Translations Upload
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  translations-upload:
+    runs-on: ubuntu-20.04
+
+    defaults:
+      run:
+        working-directory: scripts
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js version 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: npm clean install
+        run: npm ci
+
+      - name: Upload translations
+        run: npx ts-node translationsUpload.ts
