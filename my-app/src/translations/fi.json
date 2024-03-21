@@ -1,5 +1,8 @@
 {
   "translation": {
-    "my-app": "Hakemukseni"
+    "my-app": "Hakemukseni",
+    "learn-react": "Opi React",
+    "ok": "OK",
+    "cancel": "Peruuttaa"
   }
 }
