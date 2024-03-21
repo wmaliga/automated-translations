@@ -1,5 +1,8 @@
 {
   "translation": {
-    "my-app": "Meine Anwendung"
+    "my-app": "Meine Anwendung",
+    "learn-react": "Lerne React",
+    "ok": "OK",
+    "cancel": "Stornieren"
   }
 }
